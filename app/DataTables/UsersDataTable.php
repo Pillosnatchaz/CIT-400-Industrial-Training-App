@@ -36,15 +36,6 @@ class UsersDataTable extends DataTable
             ->buttons([
                 Button::make('selectAll'),
                 Button::make('selectNone'),
-                Button::make('create')
-                    ->editor('dummy')
-                    ->text('Dummy Form')
-                    ->formTitle('Dummy Form with all field types')
-                    ->formButtons([
-                        Button::raw()->text('Cancel')->actionClose(),
-                        Button::raw()->text('Create')->action("alert('Dummy form submitted')"),
-                    ]),
-                Button::make('create')->editor('large')->text('Large Form'),
                 Button::make('create')->editor('create'),
                 Button::make('edit')->editor('editor'),
                 Button::make('remove')->editor('editor'),
@@ -85,21 +76,27 @@ class UsersDataTable extends DataTable
                     ]),
                 Editor::make('create')
                     ->fields([
-                        Fields\Text::make('name'),
+                        Fields\Text::make('first_name'),
+                        Fields\Text::make('last_name'),
                         Fields\Text::make('email'),
+                        Fields\Number::make('phone'),
+                        Fields\Select::make('role')->options([
+                            'Member' => 'member',
+                            'Admin' => 'admin',
+                        ]),
                         Fields\Password::make('password'),
                         Fields\Password::make('password_confirmation')->label('Confirm Password'),
                     ]),
-                Editor::make()
+                Editor::make('editor') // Editor specifically for the edit button
                     ->fields([
-                        Fields\Text::make('name'),
-                        Fields\Text::make('email')->multiEditable(false),
-                    ]),
-                Editor::make('large')
-                    ->formOptions(['width' => 'max-w-7xl'])
-                    ->fields([
-                        Fields\Text::make('name'),
-                        Fields\Text::make('email')->multiEditable(false),
+                        Fields\Text::make('first_name'), // Add the fields you want to edit
+                        Fields\Text::make('last_name'),
+                        Fields\Text::make('email')->multiEditable(false), // Maybe disable editing email
+                        Fields\Number::make('phone'),
+                        Fields\Select::make('role')->options([
+                            'Member' => 'member',
+                            'Admin' => 'admin',
+                        ]),
                     ]),
             ]);
     }
@@ -109,8 +106,11 @@ class UsersDataTable extends DataTable
         return [
             Column::checkbox(),
             Column::make('id'),
-            Column::make('name'),
+            Column::make('first_name'),
+            Column::make('last_name'),
             Column::make('email'),
+            Column::make('phone'),
+            Column::make('role'),
             Column::make('created_at'),
             Column::make('updated_at'),
         ];

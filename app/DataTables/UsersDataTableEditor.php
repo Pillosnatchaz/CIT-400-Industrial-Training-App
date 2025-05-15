@@ -19,9 +19,14 @@ class UsersDataTableEditor extends DataTablesEditor
     public function createRules(): array
     {
         return [
+            
+            'first_name' => 'sometimes|required|max:255',
+            'last_name' => 'sometimes|required|max:255',
             'email' => 'required|email|max:255|unique:'.$this->resolveModel()->getTable(),
-            'name' => 'required|max:255',
-            'password' => 'required||max:255|confirmed',
+            'phone' => 'sometimes|required|max:255|numeric',
+            'role' => 'sometimes|required|max:255',
+            'password' => 'sometimes|required|max:255',
+            
         ];
     }
 
@@ -31,8 +36,11 @@ class UsersDataTableEditor extends DataTablesEditor
     public function editRules(Model $model): array
     {
         return [
+            'first_name' => 'sometimes|required|max:255',
+            'last_name' => 'sometimes|required|max:255',
             'email' => 'sometimes|required|max:255|email|'.Rule::unique($model->getTable())->ignore($model->getKey()),
-            'name' => 'sometimes|required|max:255',
+            'phone' => 'sometimes|required|max:255|numeric',
+            'role' => 'sometimes|required|max:255',
             'password' => 'sometimes|required|max:255',
         ];
     }
