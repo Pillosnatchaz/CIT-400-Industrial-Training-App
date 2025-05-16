@@ -6,7 +6,9 @@ namespace App\DataTables;
 
 use App\Models\Item;
 use App\Models\ItemStock;
+use App\Models\ActivityLog;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 use Yajra\DataTables\DataTablesEditor;
 
@@ -83,6 +85,14 @@ class ItemsDataTableEditor extends DataTablesEditor
 
         ItemStock::insert($itemStocksData);
 
+    //     ActivityLog::create([
+    //        'admin_id' => Auth::id(), // Use Auth::id() to get the current user
+    //        'entity_type' => 'items', // Or 'item_stocks', adjust as needed
+    //        'entity_id' => $item->id, // ID of the newly created Item
+    //        'action' => 'created',
+    //        'notes' => 'Item and Stock Created', // Customize the notes
+    //    ]);
+
         // Return the first ItemStock data or null
         return $itemStocksData[0] ?? []; // Or return null;
     }
@@ -93,5 +103,25 @@ class ItemsDataTableEditor extends DataTablesEditor
             'DT_RowId' => 'required|not_in:'.auth()->id(),
         ];
     }
+
+    public function saved(Model $model, array $data): Model
+   {
+       $action = $model->wasRecentlyCreated ? 'created' : 'updated';
+       $entityType = 'items'; // Or 'item_stocks'
+       $notes = "Item/Stock {$action}";
+       if($action == 'updated'){
+          $notes = "Item/Stock Updated. Changes: " . json_encode($model->getChanges());
+       }
+
+       ActivityLog::create([
+           'admin_id' => Auth::id(),
+           'entity_type' => $entityType,
+           'entity_id' => $model->id, // ID of the ItemStock
+           'action' => $action,
+           'notes' => $notes, // Customize the notes
+       ]);
+
+       return $model;
+   }
 
 }

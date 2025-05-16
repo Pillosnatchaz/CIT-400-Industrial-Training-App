@@ -48,7 +48,7 @@ class ItemsDataTable extends DataTable
                 return $itemStock->item->category;
             })
             ->addColumn('warehouse_id', function (ItemStock $itemStock) {
-                return $itemStock->warehouse->name ?? 'N/A'; // Assuming your Warehouse model has a 'name' attribute
+                return $itemStock->warehouse->name ?? 'N/A'; 
             })
             ->addColumn('status', function (ItemStock $itemStock) {
                 return $itemStock->status;
