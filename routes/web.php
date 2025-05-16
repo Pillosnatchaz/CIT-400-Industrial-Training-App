@@ -35,7 +35,7 @@ Route::get('/warehouses', [WarehousesController::class, 'index'])
 
 Route::get('/projects', [ProjectController::class, 'index'])
     ->middleware('auth')
-    ->name('project.index');
+    ->name('projects.index');
 
 // Storing data
 Route::post('/users', [UsersController::class, 'store'])
@@ -50,6 +50,6 @@ Route::post('/warehouses', [WarehousesController::class, 'store'])
     ->middleware('auth')
     ->name('warehouse.store');
 
-Route::post('/projects', [ProjectController::class, 'index'])
+Route::post('/projects', [ProjectController::class, 'store'])
     ->middleware('auth')
-    ->name('project.store');
+    ->name('projects.store');
