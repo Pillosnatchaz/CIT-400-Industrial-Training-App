@@ -22,7 +22,16 @@ class WarehousesDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-            // ->addColumn('action', 'warehouses.action')
+            ->editColumn('created_at', function (Warehouse $warehouse) {
+                return $warehouse->created_at->format('Y-m-d H:i:s');
+            })
+            ->editColumn('updated_at', function (Warehouse $warehouse) {
+                return $warehouse->updated_at->format('Y-m-d H:i:s');
+            })
+            // ->addColumn('action', function (Warehouse $warehouse) {
+            //     return view('warehouse.actions', compact('warehouse'));
+            // })
+            // ->addColumn(['action'])
             ->setRowId('id');
     }
 
@@ -45,34 +54,25 @@ class WarehousesDataTable extends DataTable
             ->setTableId('warehouses-table')
             ->columns($this->getColumns())
             ->minifiedAjax(route('warehouse.index'))
-            ->orderBy(1)
+            // ->orderBy(1)
             ->selectStyleOS()
             ->buttons([
                 Button::make('selectAll'),
                 Button::make('selectNone'),
-                Button::make('create')->editor('create'),
-                Button::make('edit')->editor('editor'),
-                Button::make('remove')->editor('editor'),
-                Button::make('collection')
-                    ->text('Export')
-                    ->buttons([
-                        Button::raw()->text('Excel')->action('alert("Excel button")'),
-                        Button::raw()->text('CSV')->action('alert("CSV button")'),
-                    ]),
+                // Button::make('remove'),
+                // Button::make('create')->text('+ New Warehouse')->action("window.location.href = '" . route('warehouse.create') . "'"),
+                // Button::make('create')->text('Edit')->addClass('open-edit-modal'),
+                Button::make('edit')
+                    ->text('Edit')
+                    ->attr(['id' => 'edit-selected-btn']),
+                Button::make('remove')
+                    ->text('Delete')
+                    ->attr(['id' => 'delete-selected-btn']),
+                Button::make('create')
+                    ->text('+ New Warehouse')
+                    ->addClass('open-create-modal'),
             ])
-            ->addScript('datatables::functions.batch_remove')
-            ->editors([
-                Editor::make('create')
-                    ->fields([
-                        Fields\Text::make('name'),
-                        Fields\Text::make('address'),
-                    ]),
-                Editor::make('editor') 
-                    ->fields([
-                        Fields\Text::make('name'),
-                        Fields\Text::make('address'),
-                    ]),
-            ]);
+            ->addScript('datatables::functions.batch_remove');
     }
 
     /**
@@ -87,6 +87,11 @@ class WarehousesDataTable extends DataTable
             Column::make('address'),
             Column::make('created_at'),
             Column::make('updated_at'),
+            // Column::computed('action')
+            // ->exportable(false)
+            // ->printable(false)
+            // ->width(60)
+            // ->addClass('text-center'),
         ];
     }
 

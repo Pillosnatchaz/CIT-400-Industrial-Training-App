@@ -4,6 +4,7 @@ use App\Http\Controllers\UsersController;
 use App\Http\Controllers\ItemsController;
 use App\Http\Controllers\WarehousesController;
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\ReceiptsController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -33,9 +34,15 @@ Route::get('/warehouses', [WarehousesController::class, 'index'])
     ->middleware('auth')
     ->name('warehouse.index');
 
+Route::resource('warehouse', WarehousesController::class)->middleware('auth');
+
 Route::get('/projects', [ProjectController::class, 'index'])
     ->middleware('auth')
     ->name('projects.index');
+
+Route::get('/receipts', [ReceiptsController::class, 'index'])
+    ->middleware('auth')
+    ->name('receipt.index');
 
 // Storing data
 Route::post('/users', [UsersController::class, 'store'])
@@ -53,3 +60,8 @@ Route::post('/warehouses', [WarehousesController::class, 'store'])
 Route::post('/projects', [ProjectController::class, 'store'])
     ->middleware('auth')
     ->name('projects.store');
+
+Route::post('/receipts', [ReceiptsController::class, 'store'])
+    ->middleware('auth')
+    ->name('receipt.store');
+
