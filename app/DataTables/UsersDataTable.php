@@ -17,6 +17,12 @@ class UsersDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
+            ->editColumn('created_at', function (User $user) {
+                return $user->created_at->format('Y-m-d H:i:s');
+            })
+            ->editColumn('updated_at', function (User $user) {
+                return $user->updated_at->format('Y-m-d H:i:s');
+            })
             ->setRowId('id');
     }
 
@@ -36,9 +42,15 @@ class UsersDataTable extends DataTable
             ->buttons([
                 Button::make('selectAll'),
                 Button::make('selectNone'),
-                Button::make('create')->editor('create'),
-                Button::make('edit')->editor('editor'),
-                Button::make('remove')->editor('editor'),
+                Button::make('edit')
+                    ->text('Edit')
+                    ->attr(['id' => 'edit-selected-btn']),
+                Button::make('remove')
+                    ->text('Delete')
+                    ->attr(['id' => 'delete-selected-btn']),
+                Button::make('create')
+                    ->text('Add')
+                    ->addClass('open-create-modal'),
                 Button::make('collection')
                     ->text('Export')
                     ->buttons([
@@ -46,59 +58,9 @@ class UsersDataTable extends DataTable
                         Button::raw()->text('CSV')->action('alert("CSV button")'),
                     ]),
             ])
-            ->addScript('datatables::functions.batch_remove')
-            ->editors([
-                Editor::make('dummy')
-                    ->fields([
-                        Fields\Image::make('image'),
-                        Fields\Text::make('text'),
-                        Fields\Password::make('password'),
-                        Fields\TextArea::make('textarea'),
-                        Fields\Select::make('select')->options([
-                            'Option 1',
-                            'Option 2',
-                            'Option 3',
-                        ]),
-                        Fields\Checkbox::make('checkbox')->options([
-                            'Option 1',
-                            'Option 2',
-                            'Option 3',
-                        ]),
-                        Fields\Radio::make('radio')->options([
-                            'Option 1',
-                            'Option 2',
-                            'Option 3',
-                        ]),
-                        Fields\Date::make('date'),
-                        Fields\Time::make('time'),
-                        Fields\DateTime::make('datetime')->label('Date Time'),
-                        Fields\File::make('file'),
-                    ]),
-                Editor::make('create')
-                    ->fields([
-                        Fields\Text::make('first_name'),
-                        Fields\Text::make('last_name'),
-                        Fields\Text::make('email'),
-                        Fields\Number::make('phone'),
-                        Fields\Select::make('role')->options([
-                            'Member' => 'member',
-                            'Admin' => 'admin',
-                        ]),
-                        Fields\Password::make('password'),
-                        Fields\Password::make('password_confirmation')->label('Confirm Password'),
-                    ]),
-                Editor::make('editor') // Editor specifically for the edit button
-                    ->fields([
-                        Fields\Text::make('first_name'), // Add the fields you want to edit
-                        Fields\Text::make('last_name'),
-                        Fields\Text::make('email')->multiEditable(false), // Maybe disable editing email
-                        Fields\Number::make('phone'),
-                        Fields\Select::make('role')->options([
-                            'Member' => 'member',
-                            'Admin' => 'admin',
-                        ]),
-                    ]),
-            ]);
+            ->addScript('datatables::functions.batch_remove');
+            
+
     }
 
     public function getColumns(): array

@@ -35,6 +35,7 @@ Route::get('/warehouses', [WarehousesController::class, 'index'])
     ->name('warehouse.index');
 
 Route::resource('warehouse', WarehousesController::class)->middleware('auth');
+Route::resource('user', UsersController::class)->middleware('auth');
 
 Route::get('/projects', [ProjectController::class, 'index'])
     ->middleware('auth')
@@ -45,9 +46,9 @@ Route::get('/receipts', [ReceiptsController::class, 'index'])
     ->name('receipt.index');
 
 // Storing data
-Route::post('/users', [UsersController::class, 'store'])
-    ->middleware('auth')
-    ->name('users.store');
+// Route::post('/users', [UsersController::class, 'store'])
+//     ->middleware('auth')
+//     ->name('users.store');
 
 Route::post('/items', [ItemsController::class, 'store'])
     ->middleware('auth')
