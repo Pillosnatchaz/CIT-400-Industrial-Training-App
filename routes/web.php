@@ -36,6 +36,7 @@ Route::get('/warehouses', [WarehousesController::class, 'index'])
 
 Route::resource('warehouse', WarehousesController::class)->middleware('auth');
 Route::resource('user', UsersController::class)->middleware('auth');
+Route::resource('project', ProjectController::class)->middleware('auth');
 
 Route::get('/projects', [ProjectController::class, 'index'])
     ->middleware('auth')

@@ -23,15 +23,14 @@ class ProjectsDataTable extends DataTable
      */
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
-        return dataTables()
-            ->eloquent($query)
+        return (new EloquentDataTable($query))
             ->addColumn('creator_name', function (Project $project) {
                 return $project->creator->first_name . ' ' . $project->creator->last_name; 
             })
-            ->addColumn('created_at', function (Project $project) {
+            ->editColumn('created_at', function (Project $project) {
                 return Carbon::parse($project->created_at)->format('Y-m-d H:i:s');
             })
-            ->addColumn('updated_at', function (Project $project) {
+            ->editColumn('updated_at', function (Project $project) {
                 return Carbon::parse($project->updated_at)->format('Y-m-d H:i:s');
             })
             ->setRowId('id');
@@ -61,39 +60,17 @@ class ProjectsDataTable extends DataTable
             ->buttons([
                 Button::make('selectAll'),
                 Button::make('selectNone'),
-                Button::make('create')->editor('create'),
-                Button::make('edit')->editor('editor'),
-                Button::make('remove')->editor('editor'),
-                Button::make('collection')
-                    ->text('Export')
-                    ->buttons([
-                        Button::make('excel'),
-                        Button::make('csv'),
-                    ]),
+                Button::make('edit')
+                    ->text('Edit')
+                    ->attr(['id' => 'edit-selected-btn']),
+                Button::make('remove')
+                    ->text('Delete')
+                    ->attr(['id' => 'delete-selected-btn']),
+                Button::make('create')
+                    ->text('Add')
+                    ->addClass('open-create-modal'),
             ])
-            ->addScript('datatables::functions.batch_remove')
-            ->editors([
-                Editor::make('create')
-                    ->fields([
-                        Fields\Text::make('name'),
-                        Fields\Text::make('client_name'),
-                        Fields\Text::make('start_range'),
-                        Fields\Date::make('end_range'),
-                        Fields\Text::make('location'),
-                        Fields\TextArea::make('description'),
-                        // Fields\Hidden::make('created_by'),
-                    ]),
-                Editor::make('editor') 
-                    ->fields([
-                        Fields\Text::make('name'),
-                        Fields\Text::make('client_name'),
-                        Fields\Text::make('start_range'),
-                        Fields\Date::make('end_range'),
-                        Fields\Text::make('location'),
-                        Fields\TextArea::make('description'),
-                        // Fields\Hidden::make('created_by'),
-                    ]),
-            ]);
+            ->addScript('datatables::functions.batch_remove');
     }
 
     /**
@@ -110,7 +87,7 @@ class ProjectsDataTable extends DataTable
             Column::make('end_range') ->title('End Date'),
             Column::make('location'),
             Column::make('description'),
-            Column::make('creator_name')->title('Created By'),
+            // Column::make('creator_name')->title('Created By'),
             Column::make('created_at'),
             Column::make('updated_at'),
         ];
