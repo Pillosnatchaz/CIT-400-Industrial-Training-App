@@ -23,23 +23,7 @@ class Item extends Model
 
     public function itemStocks(): HasMany
     {
-        return $this->hasMany(ItemStock::class);
+        return $this->hasMany(ItemStock::class, 'item_id');
     
     }
-
-    protected static function booted()
-    {
-        parent::boot();
-
-        static::deleted(function ($model) {
-            ActivityLog::create([
-                'admin_id' => Auth::id(),
-                'entity_type' => 'items',
-                'entity_id' => $model->id,
-                'action' => 'deleted',
-                'notes' => 'Item Deleted: ' . $model->name, // Customize
-            ]);
-        });
-    }
-
 }

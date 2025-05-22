@@ -19,32 +19,16 @@ class ItemStock extends Model
         'warehouse_id',
         'status',
         'notes',
-        'name',  
-        'category',
     ];
 
-    public function item(): belongsTo
+    public function item(): BelongsTo
     {
-        return $this->belongsTo(Item::class);
+        return $this->belongsTo(Item::class, 'item_id');
     }
 
-    public function warehouse(): belongsTo
+    public function warehouse(): BelongsTo
     {
         return $this->belongsTo(Warehouse::class);
     }
-
-    protected static function booted()
-    {
-        parent::boot();
-
-        static::deleted(function ($model) {
-            ActivityLog::create([
-                'admin_id' => Auth::id(),
-                'entity_type' => 'items',
-                'entity_id' => $model->id,
-                'action' => 'deleted',
-                'notes' => 'Item Deleted: ' . $model->name, // Customize
-            ]);
-        });
-    }
+    
 }

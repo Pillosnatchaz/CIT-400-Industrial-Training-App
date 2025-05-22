@@ -13,72 +13,39 @@ use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
+use Carbon\Carbon;
 
 class ItemsDataTable extends DataTable
 {
-    /**
-     * Build the DataTable class.
-     *
-     * @param QueryBuilder<Item> $query Results from query() method.
-     */
-    // public function dataTable(QueryBuilder $query): EloquentDataTable
-    // {
-    //     return datatables()
-    //         ->eloquent($query)
-    //         ->addColumn('name', function (ItemStock $itemStock) {
-    //             return $itemStock->item->name;
-    //         })
-    //         ->addColumn('category', function (ItemStock $itemStock) {
-    //             return $itemStock->item->category;
-    //         })
-    //         ->addColumn('warehouse_id', function (ItemStock $itemStock) {
-    //             return $itemStock->warehouse->name ?? 'N/A'; // Assuming your Warehouse model has a 'name' attribute
-    //         })
-    //         ->rawColumns(['action']);
-    // }
-
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
-        return datatables()
-            ->eloquent($query)
+        return (new EloquentDataTable($query))
             ->addColumn('name', function (ItemStock $itemStock) {
                 return $itemStock->item->name;
             })
             ->addColumn('category', function (ItemStock $itemStock) {
                 return $itemStock->item->category;
             })
-            ->addColumn('warehouse_id', function (ItemStock $itemStock) {
-                return $itemStock->warehouse->name ?? 'N/A'; 
+            ->addColumn('warehouse_display_name', function (ItemStock $itemStock) {
+                return $itemStock->warehouse->name ?? 'N/A';
             })
-            ->addColumn('status', function (ItemStock $itemStock) {
-                return $itemStock->status;
+            ->addColumn('actual_warehouse_id', function (ItemStock $itemStock) {
+                 return $itemStock->warehouse_id;
             })
-            ->addColumn('notes', function (ItemStock $itemStock) {
-                return $itemStock->notes;
+            ->editColumn('updated_at', function (ItemStock $itemStock) {
+                return Carbon::parse($itemStock->updated_at)->format('Y-m-d H:i:s');
             })
-            ->addColumn('created_at', function (ItemStock $itemStock) {
-                return $itemStock->created_at;
+            ->addColumn('item_id', function (ItemStock $itemStock) {
+                return $itemStock->item_id;
             })
-            ->addColumn('updated_at', function (ItemStock $itemStock) {
-                return $itemStock->updated_at;
-            })
-            ->rawColumns(['action'])
             ->setRowId('id');
     }
 
-    /**
-     * Get the query source of dataTable.
-     *
-     * @return QueryBuilder<Item>
-     */
     public function query(ItemStock $model): QueryBuilder
     {
         return $model->newQuery()->with(['item', 'warehouse']);
     }
 
-    /**
-     * Optional method if you want to use the html builder.
-     */
     public function html(): HtmlBuilder
     {
         return $this->builder()
@@ -86,105 +53,54 @@ class ItemsDataTable extends DataTable
             ->columns($this->getColumns())
             ->minifiedAjax(route('items.index'))
             ->orderBy(1)
-            ->selectStyleOS()
+            // ->selectStyleOS()
+            ->select([ // multiple select row W/o shift/ctrl
+                'style' => 'multi',
+            ])
             ->buttons([
                 Button::make('selectAll'),
                 Button::make('selectNone'),
-                Button::make('create')->editor('create')->text('Input Items'),
-                // Button::make('create')->editor('create_category')->text('New Category'),
-                Button::make('edit')->editor('editor'),
-                Button::make('remove')->editor('editor'),
+                Button::make('create')
+                    ->text('Add')
+                    ->addClass('open-create-modal'),
+                Button::make('edit')
+                    ->text('Edit')
+                    ->attr(['id' => 'edit-selected-btn']),
+                Button::make('remove')
+                    ->text('Delete')
+                    ->attr(['id' => 'delete-selected-btn']),
                 Button::make('collection')
                     ->text('Others')
                     ->buttons([
-                        Button::make('create')->editor('create_item_name')->text('New Item Name'),
-                        Button::make('create')->editor('create_category')->text('New Category'),
-                    ]),
-                Button::make('collection')
-                    ->text('Export')
-                    ->buttons([
-                        Button::raw()->text('Excel')->action('alert("Excel button")'),
-                        Button::raw()->text('CSV')->action('alert("CSV button")'),
-                    ]),
+                        Button::make('create')->text('Add Category')
+                                       ->attr(['id' => 'open-create-modal']),
+                        Button::raw('')->text('Edit Category')
+                                       ->attr(['id' => 'edit-selected-btn']), //dont make it select rows
+                        Button::raw('')->text('Delete Category')
+                                       ->attr(['id' => 'delete-selected-btn']), //dont make it select rows
+                    ])
             ])
-            ->addScript('datatables::functions.batch_remove')
-            ->editors([
-                Editor::make('create', new ItemsDataTableEditor())
-                    ->fields([
-                        Fields\Text::make('name'),
-                        Fields\Select::make('category')->label('Category')->options(
-                            Item::distinct('category')->orderBy('category')->pluck('category', 'category')
-                        ),
-                        Fields\Select::make('warehouse_id')->options($warehouses = Warehouse::all()->pluck('id', 'name')),
-                        Fields\Select::make('status')->options([
-                            'Available' => 'available',
-                            'In use' => 'in use',
-                            'Maintenance' => 'maintenance',
-                            'Damaged' => 'damaged',
-                            'Unavailable' => 'unavailable',
-                        ]),
-                        Fields\Number::make('quantity')
-                            ->label('Quantity')
-                            ->default(1)
-                            ->attr('min', '1'),
-
-                        Fields\Text::make('notes'),
-                    ]),
-                Editor::make('editor')
-                    ->fields([
-                        Fields\Hidden::make('item_id'),
-                        Fields\Select::make('warehouse_id')->options($warehouses = Warehouse::all()->pluck('id', 'name')),
-                        Fields\Select::make('status')->options([
-                            'Available' => 'available',
-                            'In use' => 'in use',
-                            'Maintenance' => 'maintenance',
-                            'Damaged' => 'damaged',
-                            'Unavailable' => 'unavailable',
-                        ]),
-                        Fields\Text::make('notes'),
-                    ]),
-                Editor::make('create_item_name')
-                    ->fields([
-                        Fields\Text::make('name'),
-                        Fields\Select::make('category')->label('Category')->options(
-                            Item::distinct('category')->orderBy('category')->pluck('category', 'category')
-                        ),
-                    ]),
-                Editor::make('create_category')
-                    ->fields([
-                        Fields\Text::make('name'),
-                        Fields\Text::make('email')->multiEditable(false),
-                    ]),
-            ]);
+            ->addScript('datatables::functions.batch_remove');
+            
     }
 
-    /**
-     * Get the dataTable columns definition.
-     */
     public function getColumns(): array
     {
         return [
-            // Column::computed('action')
-            //       ->exportable(false)
-            //       ->printable(false)
-            //       ->width(60)
-            //       ->addClass('text-center'),
             Column::checkbox(),
-            Column::make('id'), // This will be the id from the items_stocks table
-            Column::make('name')->title('Item Name'), // Define the title for clarity
-            // Column::make('item_id'),
-            Column::make('category')->title('Category'),
-            Column::make('warehouse_id')->title('Warehouse'),
-            Column::make('status'),
-            Column::make('notes')->title('Notes'),
-            Column::make('created_at'),
-            Column::make('updated_at'),
+            Column::make('id')->title('Stock ID'),
+            Column::make('name')->title('Item Name'),
+            Column::make('category')->title('Category')->addClass('text-center'),
+            Column::make('status')->addClass('text-center'),
+            Column::make('warehouse_display_name')->title('Warehouse')->data('warehouse_display_name'),
+            Column::make('warehouse_id')->title('Warehouse ID')->visible(false)->addClass('text-center'),
+            Column::make('actual_warehouse_id')->visible(false)->searchable(false)->addClass('text-center'),
+            Column::make('item_id')->visible(false)->searchable(false)->addClass('text-center'),
+            Column::make('notes')->title('Description')->addClass('text-center'),
+            Column::make('updated_at')->addClass('text-center'),
         ];
     }
 
-    /**
-     * Get the filename for export.
-     */
     protected function filename(): string
     {
         return 'Items_' . date('YmdHis');
