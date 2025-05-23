@@ -11,6 +11,10 @@ class UsersController extends Controller
 {
     public function index(UsersDataTable $dataTable)
     {
+        if (auth()->user()->role !== 'admin') {
+            abort(403, 'Forbidden');
+        }
+
         return $dataTable->render('users.index');
     }
 
