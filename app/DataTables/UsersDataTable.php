@@ -17,12 +17,26 @@ class UsersDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
+            ->addColumn('role_raw', function (User $user) {
+                return $user->role;
+            })
             ->editColumn('created_at', function (User $user) {
                 return $user->created_at->format('Y-m-d H:i:s');
             })
             ->editColumn('updated_at', function (User $user) {
                 return $user->updated_at->format('Y-m-d H:i:s');
             })
+            ->editColumn('role', function (User $user) {
+                $role = $user->role;
+                $colors = [
+                    'admin' => 'bg-green-200 text-green-800',
+                    'member' => 'bg-yellow-200 text-yellow-800',
+                ];
+
+                $color = $colors[$role] ?? 'bg-gray-100 text-gray-800';
+                return '<span class="inline-block min-w-[6rem] text-center px-3 py-1 rounded-full text-xs font-semibold '.$color.'">'.ucwords($role).'</span>';
+            })
+            ->rawColumns(['role'])
             ->setRowId('id');
     }
 
@@ -38,7 +52,10 @@ class UsersDataTable extends DataTable
             ->columns($this->getColumns())
             ->minifiedAjax(route('users.index'))
             ->orderBy(1)
-            ->selectStyleOS()
+            // ->selectStyleOS()
+            ->select([ // multiple select row W/o shift/ctrl
+                'style' => 'multi',
+            ])
             ->buttons([
                 Button::make('selectAll'),
                 Button::make('selectNone'),
@@ -67,7 +84,8 @@ class UsersDataTable extends DataTable
     {
         return [
             Column::checkbox(),
-            Column::make('id'),
+            Column::make('id')
+                ->addClass('text-center'),
             Column::make('first_name'),
             Column::make('last_name'),
             Column::make('email'),

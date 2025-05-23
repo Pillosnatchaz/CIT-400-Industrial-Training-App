@@ -32,12 +32,31 @@ class ItemsDataTable extends DataTable
             ->addColumn('actual_warehouse_id', function (ItemStock $itemStock) {
                  return $itemStock->warehouse_id;
             })
-            ->editColumn('updated_at', function (ItemStock $itemStock) {
-                return Carbon::parse($itemStock->updated_at)->format('Y-m-d H:i:s');
-            })
             ->addColumn('item_id', function (ItemStock $itemStock) {
                 return $itemStock->item_id;
             })
+            ->addColumn('status_raw', function (ItemStock $itemStock) {
+                return $itemStock->status;
+            })
+            ->editColumn('status', function (ItemStock $itemStock){
+                $status = $itemStock->status;
+                $colors = [
+                    'available' => 'bg-green-200 text-green-800',
+                    'in use'      => 'bg-yellow-200 text-yellow-800',
+                    'maintenance' => 'bg-blue-200 text-blue-800',
+                    'damaged'     => 'bg-red-200 text-red-800',
+                    'unavailable' => 'bg-gray-300 text-black-800',
+                ];
+
+                $color = $colors[$status] ?? 'bg-gray-100 text-gray-800';
+                // return '<span class="px-2 py-1 rounded text-xs font-semibold '.$color.' w-28">'.ucwords($status).'</span>';
+                return '<span class="inline-block min-w-[6rem] text-center px-3 py-1 rounded-full text-xs font-semibold '.$color.'">'.ucwords($status).'</span>';
+
+            })
+            ->editColumn('updated_at', function (ItemStock $itemStock) {
+                return Carbon::parse($itemStock->updated_at)->format('Y-m-d H:i:s');
+            })
+            ->rawColumns(['status'])
             ->setRowId('id');
     }
 
@@ -88,16 +107,35 @@ class ItemsDataTable extends DataTable
     {
         return [
             Column::checkbox(),
-            Column::make('id')->title('Stock ID'),
-            Column::make('name')->title('Item Name'),
-            Column::make('category')->title('Category')->addClass('text-center'),
-            Column::make('status')->addClass('text-center'),
-            Column::make('warehouse_display_name')->title('Warehouse')->data('warehouse_display_name'),
-            Column::make('warehouse_id')->title('Warehouse ID')->visible(false)->addClass('text-center'),
-            Column::make('actual_warehouse_id')->visible(false)->searchable(false)->addClass('text-center'),
-            Column::make('item_id')->visible(false)->searchable(false)->addClass('text-center'),
-            Column::make('notes')->title('Description')->addClass('text-center'),
-            Column::make('updated_at')->addClass('text-center'),
+            Column::make('id')
+                ->addClass('text-center'),
+            Column::make('name')
+                ->title('Item Name'),
+            Column::make('category')
+                ->title('Category')
+                ->addClass('text-center'),
+            Column::make('status')
+                ->addClass('text-center'),
+            Column::make('warehouse_display_name')
+                ->title('Warehouse')
+                ->data('warehouse_display_name')
+                ->headerClass('text-center')
+                ->addClass('text-justify'),
+            Column::make('warehouse_id')
+                ->title('Warehouse ID')
+                ->visible(false)
+                ->searchable(false)
+                ->addClass('text-center'),
+            Column::make('actual_warehouse_id')
+                ->visible(false)
+                ->searchable(false)
+                ->addClass('text-center'),
+            Column::make('item_id')
+                ->visible(false)
+                ->searchable(false)
+                ->addClass('text-center'),
+            Column::make('notes'),
+            Column::make('updated_at'),
         ];
     }
 

@@ -16,11 +16,6 @@ use Carbon\Carbon;
 
 class ProjectsDataTable extends DataTable
 {
-    /**
-     * Build the DataTable class.
-     *
-     * @param QueryBuilder<Project> $query Results from query() method.
-     */
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
@@ -36,19 +31,11 @@ class ProjectsDataTable extends DataTable
             ->setRowId('id');
     }
 
-    /**
-     * Get the query source of dataTable.
-     *
-     * @return QueryBuilder<Project>
-     */
     public function query(Project $model): QueryBuilder
     {
         return $model->newQuery()->with('creator');
     }
 
-    /**
-     * Optional method if you want to use the html builder.
-     */
     public function html(): HtmlBuilder
     {
         return $this->builder()
@@ -73,9 +60,6 @@ class ProjectsDataTable extends DataTable
             ->addScript('datatables::functions.batch_remove');
     }
 
-    /**
-     * Get the dataTable columns definition.
-     */
     public function getColumns(): array
     {
         return [
@@ -87,15 +71,12 @@ class ProjectsDataTable extends DataTable
             Column::make('end_range') ->title('End Date'),
             Column::make('location'),
             Column::make('description'),
-            // Column::make('creator_name')->title('Created By'),
+            Column::make('creator_name')->title('Created By'),
             Column::make('created_at'),
             Column::make('updated_at'),
         ];
     }
 
-    /**
-     * Get the filename for export.
-     */
     protected function filename(): string
     {
         return 'Projects_' . date('YmdHis');

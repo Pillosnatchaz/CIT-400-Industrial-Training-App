@@ -82,16 +82,12 @@ class WarehousesDataTable extends DataTable
     {
         return [
             Column::checkbox(),
-            Column::make('id'),
+            Column::make('id')
+                ->addClass('text-center'),
             Column::make('name'),
             Column::make('address'),
             Column::make('created_at'),
             Column::make('updated_at'),
-            // Column::computed('action')
-            // ->exportable(false)
-            // ->printable(false)
-            // ->width(60)
-            // ->addClass('text-center'),
         ];
     }
 

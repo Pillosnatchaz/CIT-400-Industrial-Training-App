@@ -42,13 +42,15 @@
                         this.modalTitle = mode === 'edit' ? 'Edit User' : 'Add New User';
                         this.submitLabel = mode === 'edit' ? 'Update' : 'Create';
                         this.showPassword = mode === 'create';
+                        this.form.role = data?.status_role || data?.role || '';
                         this.form = {
                             first_name: data?.first_name || '',
                             last_name: data?.last_name || '',
                             email: data?.email || '',
                             password: data?.password || '',
                             phone: data?.phone || '',
-                            role: data?.role || ''
+                            // role: data?.role || ''
+                            role: data?.role_raw || data?.role || '',
                         };
                         this.formAction = action;
                     }

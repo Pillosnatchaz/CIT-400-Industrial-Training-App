@@ -32,14 +32,36 @@
                     showQuantity: false,
                     formSubmitted: false,
 
+                    // categories: @json($categories->toArray()),
+
+                    // init() {
+                    //     this.$watch('showModal', (value) => {
+                    //         if (!value) {
+                    //             this.refreshCategories();
+                    //         }
+                    //     });
+                    // },
+
+                    // // Method to fetch categories from the backend and update the Alpine array
+                    // async refreshCategories() {
+                    //     try {
+                    //         const response = await axios.get('{{ route("items.get_categories") }}');
+                    //         // Ensure unique values and sort them for the datalist
+                    //         this.categories = [...new Set(response.data)].sort();
+                    //     } catch (error) {
+                    //         console.error('Error fetching categories:', error);
+                    //     }
+                    // },
+
                     openModal(event) {
                         const { mode, data, action } = event.detail;
                         this.showModal = true;
                         this.formMethod = mode === 'edit' ? 'PUT' : 'POST';
                         this.modalTitle = mode === 'edit' ? 'Edit Item Stock' : 'Add New Item';
                         this.submitLabel = mode === 'edit' ? 'Update' : 'Create';
-                        this.showStatus = true;
+                        this.showStatus = mode === 'edit';
                         this.showQuantity = mode === 'create';
+                        this.form.status = data?.status_raw || data?.status || '';
                         
                         if (mode === 'create') {
                             this.form = { id: null, name: '', category:'', warehouse_id: '', status: 'available', quantity: 1, notes: '' };
@@ -49,7 +71,8 @@
                                 name: data?.name || '',                         
                                 category: data?.category || '',                 
                                 warehouse_id: data?.actual_warehouse_id || '', 
-                                status: data?.status || '',                     
+                                // status: data?.status || '',      
+                                status: data?.status_raw || data?.status || '',
                                 quantity: '', 
                                 notes: data?.notes || ''                    
                             };

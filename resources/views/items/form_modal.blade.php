@@ -20,7 +20,7 @@
                 <input type="text" name="name" x-model="form.name"
                        class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring">
             </div>
-            <div class="mb-4">
+            <!-- <div class="mb-4">
                 <label for="category" class="block text-sm font-bold mb-2">Category</label>
                 <select name="category" x-model="form.category"
                        class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring" required> 
@@ -30,7 +30,19 @@
                     @endforeach
                 </select>
                 <div x-show="form.category === '' && formSubmitted" class="text-red-500 text-xs mt-1">Please select a category.</div>
+            </div> -->
+            <div class="mb-4">
+                <label for="category" class="block text-sm font-bold mb-2">Category</label>
+                <input list="categories" name="category" x-model="form.category"
+                    class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring" required>
+                <datalist id="categories">
+                    @foreach($categories as $category)
+                        <option value="{{ $category }}">
+                    @endforeach
+                </datalist>
+                <div x-show="form.category === '' && formSubmitted" class="text-red-500 text-xs mt-1">Please select a category.</div>
             </div>
+
             <template x-if="showStatus">
                 <div class="mb-4">
                     <label for="status" class="block text-sm font-bold mb-2">Status</label>
