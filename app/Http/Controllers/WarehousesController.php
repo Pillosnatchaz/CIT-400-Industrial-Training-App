@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\DataTables\WarehousesDataTable;
-use App\DataTables\WarehousesDataTableEditor;
 use App\Models\Warehouse;
 use Illuminate\Http\Request;
 
@@ -14,11 +13,6 @@ class WarehousesController extends Controller
     {
         return $dataTable->render('warehouse.index');
     }
-
-    // public function store(WarehousesDataTableEditor $editor)
-    // {
-    //     return $editor->process(request());
-    // }
 
     public function create()
     {

@@ -54,25 +54,24 @@ class WarehousesDataTable extends DataTable
             ->setTableId('warehouses-table')
             ->columns($this->getColumns())
             ->minifiedAjax(route('warehouse.index'))
-            // ->orderBy(1)
-            ->selectStyleOS()
+            ->orderBy(1)
+            ->select([ // multiple select row W/o shift/ctrl
+                'style' => 'multi',
+            ])
             ->buttons([
                 Button::make('selectAll'),
                 Button::make('selectNone'),
-                // Button::make('remove'),
-                // Button::make('create')->text('+ New Warehouse')->action("window.location.href = '" . route('warehouse.create') . "'"),
-                // Button::make('create')->text('Edit')->addClass('open-edit-modal'),
-                Button::make('edit')
+                Button::raw('')
                     ->text('Edit')
                     ->attr(['id' => 'edit-selected-btn']),
-                Button::make('remove')
+                Button::raw('')
                     ->text('Delete')
                     ->attr(['id' => 'delete-selected-btn']),
-                Button::make('create')
+                Button::raw('')
                     ->text('+ New Warehouse')
                     ->addClass('open-create-modal'),
-            ])
-            ->addScript('datatables::functions.batch_remove');
+            ]);
+            // ->addScript('datatables::functions.batch_remove');
     }
 
     /**

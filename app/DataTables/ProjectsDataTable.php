@@ -43,18 +43,20 @@ class ProjectsDataTable extends DataTable
             ->columns($this->getColumns())
             ->minifiedAjax(route('projects.index'))
             ->orderBy(1)
-            ->selectStyleOS()
+            ->select([ // multiple select row W/o shift/ctrl
+                'style' => 'multi',
+            ])
             ->buttons([
                 Button::make('selectAll'),
                 Button::make('selectNone'),
-                Button::make('edit')
+                Button::raw('')
                     ->text('Edit')
                     ->attr(['id' => 'edit-selected-btn']),
-                Button::make('remove')
+                Button::raw('')
                     ->text('Delete')
                     ->attr(['id' => 'delete-selected-btn']),
-                Button::make('create')
-                    ->text('Add')
+                Button::raw('')
+                    ->text('Create New Project')
                     ->addClass('open-create-modal'),
             ])
             ->addScript('datatables::functions.batch_remove');
