@@ -79,15 +79,16 @@ class ItemsDataTable extends DataTable
             ->buttons([
                 Button::make('selectAll'),
                 Button::make('selectNone'),
-                Button::make('create')
-                    ->text('Add')
-                    ->addClass('open-create-modal'),
-                Button::make('edit')
+                
+                Button::raw('')
                     ->text('Edit')
                     ->attr(['id' => 'edit-selected-btn']),
-                Button::make('remove')
+                Button::raw('')
                     ->text('Delete')
                     ->attr(['id' => 'delete-selected-btn']),
+                Button::raw('')
+                    ->text('Add Items')
+                    ->addClass('open-create-modal'),
                 Button::make('collection')
                     ->text('Others')
                     ->buttons([

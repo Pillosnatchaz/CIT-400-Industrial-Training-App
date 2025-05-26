@@ -7,7 +7,7 @@ import moment from 'moment';
 import DataTable from 'datatables.net-dt';
 import 'datatables.net-buttons-dt';
 import 'datatables.net-select-dt';
-import 'datatables.net-editor-dt';
+// import 'datatables.net-editor-dt';
 import 'datatables.net-datetime';
 
 window.jQuery = window.$ = $
