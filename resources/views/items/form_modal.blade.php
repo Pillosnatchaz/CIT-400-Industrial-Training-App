@@ -19,6 +19,11 @@
                 <label for="name" class="block text-sm font-bold mb-2">Item Name</label>
                 <input type="text" name="name" x-model="form.name"
                        class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring">
+                <datalist id="itemNames">
+                    @foreach($itemNames as $itemName)
+                        <option value="{{ $itemName }}">
+                    @endforeach
+                </datalist>
             </div>
             <!-- <div class="mb-4">
                 <label for="category" class="block text-sm font-bold mb-2">Category</label>

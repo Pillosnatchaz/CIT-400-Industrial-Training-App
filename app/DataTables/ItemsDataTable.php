@@ -14,6 +14,8 @@ use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 use Carbon\Carbon;
+use Illuminate\Support\Str;
+
 
 class ItemsDataTable extends DataTable
 {
@@ -38,6 +40,9 @@ class ItemsDataTable extends DataTable
             ->addColumn('status_raw', function (ItemStock $itemStock) {
                 return $itemStock->status;
             })
+            ->addColumn('notes', function ($row) {
+                return '<div class="whitespace-normal break-words max-w-md">' . e(Str::limit($row->notes, 500)) . '</div>';
+            })
             ->editColumn('status', function (ItemStock $itemStock){
                 $status = $itemStock->status;
                 $colors = [
@@ -49,14 +54,14 @@ class ItemsDataTable extends DataTable
                 ];
 
                 $color = $colors[$status] ?? 'bg-gray-100 text-gray-800';
-                // return '<span class="px-2 py-1 rounded text-xs font-semibold '.$color.' w-28">'.ucwords($status).'</span>';
+                
                 return '<span class="inline-block min-w-[6rem] text-center px-3 py-1 rounded-full text-xs font-semibold '.$color.'">'.ucwords($status).'</span>';
 
             })
             ->editColumn('updated_at', function (ItemStock $itemStock) {
                 return Carbon::parse($itemStock->updated_at)->format('Y-m-d H:i:s');
             })
-            ->rawColumns(['status'])
+            ->rawColumns(['status', 'notes'])
             ->setRowId('id');
     }
 
@@ -92,7 +97,7 @@ class ItemsDataTable extends DataTable
                 Button::make('collection')
                     ->text('Others')
                     ->buttons([
-                        Button::make('create')->text('Add Category')
+                        Button::raw('')->text('Add Category')
                                        ->attr(['id' => 'open-create-modal']),
                         Button::raw('')->text('Edit Category')
                                        ->attr(['id' => 'edit-selected-btn']), //dont make it select rows
@@ -110,6 +115,8 @@ class ItemsDataTable extends DataTable
             Column::checkbox(),
             Column::make('id')
                 ->addClass('text-center'),
+            Column::make('SKU')
+                ->tilte('SKU'),
             Column::make('name')
                 ->title('Item Name'),
             Column::make('category')
@@ -121,7 +128,7 @@ class ItemsDataTable extends DataTable
                 ->title('Warehouse')
                 ->data('warehouse_display_name')
                 ->headerClass('text-center')
-                ->addClass('text-justify'),
+                ->addClass('text-center'),
             Column::make('warehouse_id')
                 ->title('Warehouse ID')
                 ->visible(false)
@@ -135,7 +142,9 @@ class ItemsDataTable extends DataTable
                 ->visible(false)
                 ->searchable(false)
                 ->addClass('text-center'),
-            Column::make('notes'),
+            Column::make('notes')
+                ->title('Notes')
+                ->addClass('whitespace-normal break-words max-w-md text-justfiy'),   
             Column::make('updated_at'),
         ];
     }

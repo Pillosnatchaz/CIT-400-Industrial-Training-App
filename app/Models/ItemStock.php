@@ -16,6 +16,7 @@ class ItemStock extends Model
 
     protected $fillable = [
         'item_id',
+        'SKU',
         'warehouse_id',
         'status',
         'notes',
