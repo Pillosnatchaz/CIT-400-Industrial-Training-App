@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('receipt_id')->constrained('receipt')->onDelete('cascade');
             $table->foreignId('item_stock_id')->constrained('item_stocks')->onDelete('cascade');
             $table->enum('status', ['in use', 'returned', 'lost']);
-            $table->date('date_returned')->nullable();
+            $table->dateTime('date_returned')->nullable();
             $table->timestamps();
         });
     }

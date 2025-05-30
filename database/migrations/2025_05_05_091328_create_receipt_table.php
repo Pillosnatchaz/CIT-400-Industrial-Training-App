@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained('users');
             $table->foreignId('project_id')->constrained('project');
-            $table->date('expected_return_date');
+            $table->dateTime('expected_return_date');
             $table->enum('status', ['pending', 'approved', 'completed'])->default('pending');
             $table->foreignId('created_by')->constrained('users');
             $table->timestamps();

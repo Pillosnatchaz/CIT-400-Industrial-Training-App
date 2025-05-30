@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('client_name');
             $table->json('start_range'); // ['start_date' => date, 'end_date' => date]
-            $table->date('end_range'); // ['start_date' => date, 'end_date' => date]
+            $table->dateTime('end_range'); // ['start_date' => date, 'end_date' => date]
             $table->string('location')->nullable();
             $table->text('description')->nullable();
             $table->foreignId('created_by')->constrained('users')->onDelete('cascade');
