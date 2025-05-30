@@ -25,6 +25,13 @@ class Project extends Model
         'created_by',
     ];
 
+    protected $casts = [
+        'start_range' => 'array',
+        'end_range' => 'datetime',
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime', 
+    ];
+
     public function creator()
     {
         return $this->belongsTo(User::class, 'created_by');

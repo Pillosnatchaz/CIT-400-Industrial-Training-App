@@ -29,6 +29,8 @@
                     modalTitle: 'Add New Project',
                     submitLabel: 'Create',
 
+                    
+
                     openModal(event) {
                         const { mode, data, action } = event.detail;
 
@@ -39,12 +41,31 @@
                         this.form = {
                             name: data?.name || '',
                             client_name: data?.client_name || '',
-                            start_range: data?.start_range || '',
+                            // start_range: data?.start_range || '',
+                            start_range: Array.isArray(data?.start_range) ? data.start_range.join(',') : data?.start_range || '',
                             end_range: data?.end_range || '',
                             location: data?.location || '',
                             description: data?.description || ''
                         };
                         this.formAction = action;
+
+                        this.$nextTick(() => this.initFlatpickr());
+                    },
+                    
+                    initFlatpickr() {
+                        const input = this.$refs.startRangePicker;
+                        if (input._flatpickr) {
+                            input._flatpickr.destroy(); // destroy if re-initializing
+                        }
+
+                        flatpickr(input, {
+                            mode: 'multiple',
+                            dateFormat: 'Y-m-d',
+                            defaultDate: this.form.start_range.split(','), // handles both init & edit
+                            onChange: (selectedDates, dateStr) => {
+                                this.form.start_range = dateStr;
+                            }
+                        });
                     }
                 }
             }

@@ -22,12 +22,23 @@ class ProjectsDataTable extends DataTable
             ->addColumn('creator_name', function (Project $project) {
                 return $project->creator->first_name . ' ' . $project->creator->last_name; 
             })
+            ->addColumn('start_range', function ($project) {
+                if (is_array($project->start_range)) {
+                    return implode(', ', $project->start_range);
+                }
+                // Fallback for unexpected data or if it's null
+                return ' '; 
+            })
+            ->editColumn('end_range', function (Project $project) {
+                return Carbon::parse($project->end_range)->format('Y-m-d H:i:s');
+            })
             ->editColumn('created_at', function (Project $project) {
                 return Carbon::parse($project->created_at)->format('Y-m-d H:i:s');
             })
             ->editColumn('updated_at', function (Project $project) {
                 return Carbon::parse($project->updated_at)->format('Y-m-d H:i:s');
             })
+            ->rawColumns(['start_range'])
             ->setRowId('id');
     }
 
@@ -69,7 +80,8 @@ class ProjectsDataTable extends DataTable
             Column::make('id'),
             Column::make('name'),
             Column::make('client_name'),
-            Column::make('start_range')->title('Start Date'),
+            Column::make('start_range')
+                ->title('Start Date'),
             Column::make('end_range') ->title('End Date'),
             Column::make('location'),
             Column::make('description'),

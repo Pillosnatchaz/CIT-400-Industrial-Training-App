@@ -28,15 +28,20 @@
                        class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring">
             </div>
 
+            <!-- <div class="mb-4">
+                <label for="start_range" class="block text-sm font-bold mb-2">Start Range</label>
+                <input type="text" name="start_range" id="start_range_picker" x-model="form.start_range"
+                       class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring">
+            </div> -->
             <div class="mb-4">
                 <label for="start_range" class="block text-sm font-bold mb-2">Start Range</label>
-                <input type="text" name="start_range" x-model="form.start_range"
+                <input type="text" name="start_range" x-model="form.start_range" x-ref="startRangePicker"
                        class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring">
             </div>
 
             <div class="mb-4">
                 <label for="end_range" class="block text-sm font-bold mb-2">End Range</label>
-                <input type="date" name="end_range" x-model="form.end_range"
+                <input type="datetime-local" name="end_range" x-model="form.end_range"
                        class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring">
             </div>
 
