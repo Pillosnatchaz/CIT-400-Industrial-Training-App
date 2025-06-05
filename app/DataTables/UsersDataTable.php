@@ -66,7 +66,7 @@ class UsersDataTable extends DataTable
                     ->text('Delete')
                     ->attr(['id' => 'delete-selected-btn']),
                 Button::raw('')
-                    ->text('Create New User')
+                    ->text('+ New User')
                     ->addClass('open-create-modal'),
                 Button::make('collection')
                     ->text('Export')

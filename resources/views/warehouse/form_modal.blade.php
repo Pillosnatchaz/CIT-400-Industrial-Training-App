@@ -17,13 +17,13 @@
             @csrf
 
             <div class="mb-4">
-                <label for="name" class="block text-sm font-bold mb-2">Name</label>
+                <label for="name" class="block text-sm font-bold mb-2">Name<span class="text-red-500">*</span></label>
                 <input type="text" name="name" x-model="form.name"
                        class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring">
             </div>
 
             <div class="mb-4">
-                <label for="address" class="block text-sm font-bold mb-2">Address</label>
+                <label for="address" class="block text-sm font-bold mb-2">Address<span class="text-red-500">*</span></label>
                 <input type="text" name="address" x-model="form.address"
                        class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring">
             </div>

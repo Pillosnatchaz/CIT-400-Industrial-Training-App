@@ -16,7 +16,7 @@
             </template>
             @csrf
             <div class="mb-4">
-                <label for="name" class="block text-sm font-bold mb-2">Item Name</label>
+                <label for="name" class="block text-sm font-bold mb-2">Item Name<span class="text-red-500">*</span></label>
                 <input type="text" name="name" x-model="form.name"
                        class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring">
                 <datalist id="itemNames">
@@ -37,7 +37,7 @@
                 <div x-show="form.category === '' && formSubmitted" class="text-red-500 text-xs mt-1">Please select a category.</div>
             </div> -->
             <div class="mb-4">
-                <label for="category" class="block text-sm font-bold mb-2">Category</label>
+                <label for="category" class="block text-sm font-bold mb-2">Category<span class="text-red-500">*</span></label>
                 <input list="categories" name="category" x-model="form.category"
                     class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring" required>
                 <datalist id="categories">
@@ -50,7 +50,7 @@
 
             <template x-if="showStatus">
                 <div class="mb-4">
-                    <label for="status" class="block text-sm font-bold mb-2">Status</label>
+                    <label for="status" class="block text-sm font-bold mb-2">Status<span class="text-red-500">*</span></label>
                     <select name="status" x-model="form.status"
                         class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring" required> 
                         <option value=""> --Select Status--</option>
@@ -64,10 +64,10 @@
                 </div>
             </template>
             <div class="mb-4">
-                <label for="warehouse_id" class="block text-sm font-bold mb-2">Warehouse</label>
+                <label for="warehouse_id" class="block text-sm font-bold mb-2">Warehouse<span class="text-red-500">*</span></label>
                 <select name="warehouse_id" x-model="form.warehouse_id"
                        class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring" required> 
-                    <option value=""> --Select Warehouse--</option>
+                    <option value="" disabled selected x-bind:hidden ="form.items !== ''"> --Select Warehouse--</option>
                     @foreach($warehouses as $warehouse)
                         <option value="{{ $warehouse->id }}">{{ $warehouse->name }}</option>
                     @endforeach
@@ -76,7 +76,7 @@
             </div>
             <template x-if="showQuantity">
                 <div class="mb-4">
-                    <label for="quantity" class="block text-sm font-bold mb-2">Quantity</label>
+                    <label for="quantity" class="block text-sm font-bold mb-2">Quantity<span class="text-red-500">*</span></label>
                     <input type="number" name="quantity" x-model="form.quantity" min="1" max="100"
                         class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring">
                 </div>

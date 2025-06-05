@@ -17,13 +17,13 @@
             @csrf
 
             <div class="mb-4">
-                <label for="name" class="block text-sm font-bold mb-2">Name</label>
+                <label for="name" class="block text-sm font-bold mb-2">Name<span class="text-red-500">*</span></label>
                 <input type="text" name="name" x-model="form.name"
                        class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring">
             </div>
 
             <div class="mb-4">
-                <label for="client_name" class="block text-sm font-bold mb-2">Client Name</label>
+                <label for="client_name" class="block text-sm font-bold mb-2">Client Name<span class="text-red-500">*</span></label>
                 <input type="text" name="client_name" x-model="form.client_name"
                        class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring">
             </div>
@@ -34,19 +34,19 @@
                        class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring">
             </div> -->
             <div class="mb-4">
-                <label for="start_range" class="block text-sm font-bold mb-2">Start Range</label>
+                <label for="start_range" class="block text-sm font-bold mb-2">Start Range<span class="text-red-500">*</span></label>
                 <input type="text" name="start_range" x-model="form.start_range" x-ref="startRangePicker"
                        class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring">
             </div>
 
             <div class="mb-4">
-                <label for="end_range" class="block text-sm font-bold mb-2">End Range</label>
+                <label for="end_range" class="block text-sm font-bold mb-2">End Range<span class="text-red-500">*</span></label>
                 <input type="datetime-local" name="end_range" x-model="form.end_range"
                        class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring">
             </div>
 
             <div class="mb-4">
-                <label for="location" class="block text-sm font-bold mb-2">Location</label>
+                <label for="location" class="block text-sm font-bold mb-2">Location<span class="text-red-500">*</span></label>
                 <input type="text" name="location" x-model="form.location"
                        class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring">
             </div>

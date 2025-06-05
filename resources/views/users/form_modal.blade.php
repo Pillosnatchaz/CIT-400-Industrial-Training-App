@@ -17,39 +17,39 @@
             @csrf
 
             <div class="mb-4">
-                <label for="first_name" class="block text-sm font-bold mb-2">First Name</label>
+                <label for="first_name" class="block text-sm font-bold mb-2">First Name<span class="text-red-500">*</span></label>
                 <input type="text" name="first_name" x-model="form.first_name"
                        class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring">
             </div>
 
             <div class="mb-4">
-                <label for="last_name" class="block text-sm font-bold mb-2">Last Name</label>
+                <label for="last_name" class="block text-sm font-bold mb-2">Last Name<span class="text-red-500">*</span></label>
                 <input type="text" name="last_name" x-model="form.last_name"
                        class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring">
             </div>
 
             <div class="mb-4">
-                <label for="email" class="block text-sm font-bold mb-2">Email</label>
+                <label for="email" class="block text-sm font-bold mb-2">Email<span class="text-red-500">*</span></label>
                 <input type="email" name="email" x-model="form.email"
                        class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring">
             </div>
 
             <template x-if="showPassword">
                 <div class="mb-4">
-                    <label for="password" class="block text-sm font-bold mb-2">Password</label>
+                    <label for="password" class="block text-sm font-bold mb-2">Password<span class="text-red-500">*</span></label>
                     <input type="password" name="password"
                         class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring">
                 </div>
             </template>
 
             <div class="mb-4">
-                <label for="phone" class="block text-sm font-bold mb-2">Phone Number</label>
+                <label for="phone" class="block text-sm font-bold mb-2">Phone Number<span class="text-red-500">*</span></label>
                 <input type="number" name="phone" x-model="form.phone"
                        class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring">
             </div>
 
             <div class="mb-4">
-                <label for="role" class="block text-sm font-bold mb-2">Role</label>
+                <label for="role" class="block text-sm font-bold mb-2">Role<span class="text-red-500">*</span></label>
                 <select name="role" x-model="form.role"
                        class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring"> 
                     <option value="member">Member</option>

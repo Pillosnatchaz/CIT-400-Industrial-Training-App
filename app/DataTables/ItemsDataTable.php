@@ -92,18 +92,14 @@ class ItemsDataTable extends DataTable
                     ->text('Delete')
                     ->attr(['id' => 'delete-selected-btn']),
                 Button::raw('')
-                    ->text('Add Items')
+                    ->text('+ New Items')
                     ->addClass('open-create-modal'),
                 Button::make('collection')
-                    ->text('Others')
+                    ->text('Export')
                     ->buttons([
-                        Button::raw('')->text('Add Category')
-                                       ->attr(['id' => 'open-create-modal']),
-                        Button::raw('')->text('Edit Category')
-                                       ->attr(['id' => 'edit-selected-btn']), //dont make it select rows
-                        Button::raw('')->text('Delete Category')
-                                       ->attr(['id' => 'delete-selected-btn']), //dont make it select rows
-                    ])
+                        Button::raw()->text('Excel')->action('alert("Excel button")'),
+                        Button::raw()->text('CSV')->action('alert("CSV button")'),
+                    ]),
             ])
             ->addScript('datatables::functions.batch_remove');
             

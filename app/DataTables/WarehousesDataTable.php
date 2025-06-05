@@ -70,6 +70,12 @@ class WarehousesDataTable extends DataTable
                 Button::raw('')
                     ->text('+ New Warehouse')
                     ->addClass('open-create-modal'),
+                Button::make('collection')
+                    ->text('Export')
+                    ->buttons([
+                        Button::raw()->text('Excel')->action('alert("Excel button")'),
+                        Button::raw()->text('CSV')->action('alert("CSV button")'),
+                    ]),
             ]);
             // ->addScript('datatables::functions.batch_remove');
     }

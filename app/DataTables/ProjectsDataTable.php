@@ -67,8 +67,14 @@ class ProjectsDataTable extends DataTable
                     ->text('Delete')
                     ->attr(['id' => 'delete-selected-btn']),
                 Button::raw('')
-                    ->text('Create New Project')
+                    ->text('+ New Project')
                     ->addClass('open-create-modal'),
+                Button::make('collection')
+                    ->text('Export')
+                    ->buttons([
+                        Button::raw()->text('Excel')->action('alert("Excel button")'),
+                        Button::raw()->text('CSV')->action('alert("CSV button")'),
+                    ]),
             ])
             ->addScript('datatables::functions.batch_remove');
     }

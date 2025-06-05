@@ -29,8 +29,11 @@
                     <x-nav-link href="{{ route('projects.index') }}" :active="request()->routeIs('projects.index')">
                         {{ __('Projects') }}
                     </x-nav-link>
-                    <x-nav-link href="{{ route('receipt.index') }}" :active="request()->routeIs('receipt.index')">
-                        {{ __('Receipt') }}
+                    <x-nav-link href="{{ route('receipt.checkout') }}" :active="request()->routeIs('receipt.checkout')">
+                        {{ __('Checkout') }}
+                    </x-nav-link>
+                    <x-nav-link href="{{ route('receipt.checkin') }}" :active="request()->routeIs('receipt.checkin')" >
+                        {{ __('Checkin') }}
                     </x-nav-link>
                 </div>
             </div>
@@ -166,6 +169,13 @@
             <x-responsive-nav-link href="{{ route('projects.index') }}" :active="request()->routeIs('projects.index')">
                 {{ __('Projects') }}
             </x-responsive-nav-link>
+            <x-responsive-nav-link href="{{ route('receipt.checkout') }}" :active="request()->routeIs('receipt.checkout')">
+                {{ __('Checkout') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link href="{{ route('receipt.checkin') }}" :active="request()->routeIs('receipt.checkin')">
+                {{ __('Checkin') }}
+            </x-responsive-nav-link>
+            
         </div>
 
         <!-- Responsive Settings Options -->
