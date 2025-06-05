@@ -43,9 +43,17 @@ Route::get('/projects', [ProjectController::class, 'index'])
     ->middleware('auth')
     ->name('projects.index');
 
-Route::get('/receipts', [ReceiptsController::class, 'index'])
+// Route::get('/receipts', [ReceiptsController::class, 'index'])
+//     ->middleware('auth')
+//     ->name('receipt.index');
+
+Route::get('/receipt/checkin', [ReceiptsController::class, 'index'])
     ->middleware('auth')
-    ->name('receipt.index');
+    ->name('receipt.checkin');
+    
+Route::get('/receipt/checkout', [ReceiptsController::class, 'index'])
+    ->middleware('auth')
+    ->name('receipt.checkout');
 
 //others
 Route::resource('user', UsersController::class)
@@ -62,4 +70,3 @@ Route::resource('project', ProjectController::class)
 
 Route::resource('receipt', ReceiptsController::class)
     ->middleware('auth');
-

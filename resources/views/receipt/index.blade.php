@@ -1,103 +1,290 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Receipts') }}
+            {{ ucfirst($receiptType) }} Receipts
         </h2>
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
     </x-slot>
+    
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-8">
-                <div class="flex justify-between items-center mb-4">
-                    
-                </div>
-
-                <div class="flex items-center justify-between mb-4">
-                    <div class="flex items-center">
-                        <select class="border rounded px-2 py-1 mr-2">
-                            <option>Filter</option>
-                            <!-- Add filter options here -->
-                        </select>
-                        <input type="text" placeholder="Search" class="border rounded px-2 py-1">
-                    </div>
-                    <!-- <button class="text-gray-600">Reset</button> -->
-                    <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                       + Create New Checkout
-                    </button>
-                </div>
-
-                <table class="min-w-full leading-normal">
-                    <thead>
-                        <tr>
-                            <th class="px-2 py-3 border-b-2 border-r border-gray-200 bg-gray-100 text-center text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                                Checkout
-                            </th>
-                            <th class="px-2 py-3 border-b-2 border-r border-gray-200 bg-gray-100 text-center text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                                Relations
-                            </th>
-                            <th class="px-2 py-3 border-b-2 border-r border-gray-200 bg-gray-100 text-center text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                                Project
-                            </th>
-                            <th class="px-2 py-3 border-b-2 border-r border-gray-200 bg-gray-100 text-center text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                                Actions
-                            </th>
-                        </tr>
-                    </thead>
-                    
-                        <tbody>
-                            <tr>
-                                <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm text-left">
-                                    <p class="text-gray-600 whitespace-no-wrap px-2">TCO</p>
-                                    <p class="text-gray-600 whitespace-no-wrap px-2">May 19, 2025</p> 
-                                    <p class="text-gray-600 whitespace-no-wrap px-2">Draft: <span class="text-red-500">X</span></p>
-                                </td>
-                                <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm text-left">
-                                    <p class="text-gray-600 whitespace-no-wrap px-2">Contact: Dr. Hal Klocko</p>
-                                    <p class="text-gray-600 whitespace-no-wrap px-2">Warehouse: Warehouse 2</p>
-                                    <p class="text-gray-600 whitespace-no-wrap px-2">User: Rosemary Schowalter</p>
-                                </td>
-                                <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm text-justify">
-                                    <p class="text-gray-600 whitespace-no-wrap">Placeat fugit aut eum doloremque voluptatem a nihil vero.</p>
-                                </td>
-                                <td class="px-3 py-3 border-b border-gray-200 bg-white text-sm text-center">
-                                    <div class="inline-flex space-x-1 text-center" >
-                                        <button class="bg-blue-500 rounded-l">
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                                                <path stroke-linecap="round" stroke-linejoin="round" d="M15.182 16.318A4.486 4.486 0 0 0 12.016 15a4.486 4.486 0 0 0-3.198 1.318M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0ZM9.75 9.75c0 .414-.168.75-.375.75S9 10.164 9 9.75 9.168 9 9.375 9s.375.336.375.75Zm-.375 0h.008v.015h-.008V9.75Zm5.625 0c0 .414-.168.75-.375.75s-.375-.336-.375-.75.168-.75.375-.75.375.336.375.75Zm-.375 0h.008v.015h-.008V9.75Z" />
-                                            </svg>
-                                        </button>
-                                        <button class="bg-green-500 hover:bg-green-700 ">
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                                                <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
-                                            </svg>
-                                        </button>
-                                        <button class="bg-red-500 hover:bg-red-700 rounded" >
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                                                <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
-                                            </svg>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                            
-                            <!-- More rows here -->
-                        </tbody>
-                
-                </table>
+    <div x-data="receiptModal({{ $currentUserId }})" @open-receipt-modal.window="openModal($event)">
+        <div class="py-12">
+            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-8">
+                    {{ $dataTable->table() }}
+                </div>        
             </div>
         </div>
-    </div>
+    
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-8">
-                {{ $dataTable->table() }}
-            </div>
-        </div>
+        @include('receipt.form_modal')
+        @include('receipt.detail_modal')
     </div>
 
 
     @push('scripts')
         {{ $dataTable->scripts() }}
+        <script>
+            function receiptModal(currentUserId) {
+                return {
+                    showModal: false,
+                    form: {
+                        borrower_user_id: '',
+                        parent_checkout_receipt_id: '',
+                        project_id: '',
+                        type: '',
+                        expected_return_date: '',
+                        actual_return_date: '',
+                        status: '',
+                        created_by: currentUserId,
+                    },
+                    formAction: '{{ route("receipt.store") }}',
+                    formMethod: 'POST',
+                    modalTitle: 'Add New Receipt',
+                    submitLabel: 'Create',
+                    formSubmitted: false,
+                    showItemSelection: false,
+                    showStatus: false,
+                    showActualReturnDate: false,
+                    selectedItems: [], // Initialize selectedItems here, crucial for reactivity
+
+                    showDetailModal: false,
+                    detailReceipt: {},
+                    modalTitle: 'Receipt Details',
+
+                    init() {
+                        window.addEventListener('open-detail-modal', (event) => {
+                            this.detailReceipt = event.detail.data;
+                            this.showDetailModal = true;
+                            this.modalTitle = 'Receipt Details';
+
+                            // console.log('Mode:', mode);
+                            console.log('Data received:', detailReceipt);
+                        });
+                    },
+
+                    openModal(event) {
+                        const { mode, data, action } = event.detail;
+                        this.showModal = true;
+                        this.formMethod = mode === 'edit' ? 'PUT' : 'POST';
+                        this.modalTitle = mode === 'edit' ? 'Edit Receipt' : 'Add New Receipt';
+                        this.submitLabel = mode === 'edit' ? 'Update' : 'Create';
+                        this.showStatus = mode === 'edit';
+                        this.showActualReturnDate = mode === 'edit';
+                        this.selectedItems = mode === 'create';
+
+                        console.log('Mode:', mode);
+                        console.log('Data received:', data); // [cite: 1, 2]
+
+                        const formatDateTimeLocal = (dateString) => {
+                            if (!dateString) return '';
+                            try {
+                                const date = new Date(dateString);
+                                const year = date.getFullYear();
+                                const month = (date.getMonth() + 1).toString().padStart(2, '0');
+                                const day = date.getDate().toString().padStart(2, '0');
+                                const hours = date.getHours().toString().padStart(2, '0');
+                                const minutes = date.getMinutes().toString().padStart(2, '0');
+                                return `${year}-${month}-${day}T${hours}:${minutes}`;
+                            } catch (e) {
+                                console.error('Error parsing date:', dateString, e);
+                                return '';
+                            }
+                        };
+
+                        this.form = {
+                            borrower_user_id: mode === 'create' ? currentUserId : data?.borrower_user_id || '',
+                            parent_checkout_receipt_id: data?.parent_checkout_receipt_id || '',
+                            project_id: data?.project_id || '',
+                            type: data?.type || '',
+                            expected_return_date: formatDateTimeLocal(data?.expected_return_date),
+                            actual_return_date: formatDateTimeLocal(data?.actual_return_date),
+                            status: data?.status_raw || data?.status || '',
+                            notes: data?.notes || '',
+                            created_by: data?.created_by || currentUserId,
+                        };
+
+                        this.selectedItems = []; // Clear previous items
+                        console.log(this.selectedItems);
+
+                        if (mode === 'edit' && data.receipt_items && Array.isArray(data.receipt_items)) {
+                            const tempSelectedItems = {};
+                            data.receipt_items.forEach(ri => {
+                                if (ri.item_stock && ri.item_stock.item) {
+                                    const itemId = ri.item_stock.item.id;
+                                    if (!tempSelectedItems[itemId]) {
+                                        tempSelectedItems[itemId] = {
+                                            id: itemId,
+                                            name: ri.item_stock.item.name,
+                                            quantity: 0,
+                                            available_stock: 999999999
+                                        };
+                                    }
+                                    tempSelectedItems[itemId].quantity += 1;
+                                }
+                            });
+                            this.selectedItems = Object.values(tempSelectedItems);
+                            console.log('Selected Items:', this.selectedItems); // Debug!
+                        } else if (mode === 'create') {
+                            this.selectedItems = [];
+                        }
+
+                        this.formAction = action;
+                        this.formSubmitted = false;
+                    }
+                }
+            }
+
+            function itemSelector() {
+                return {
+                    search: '',
+                    selectedCategory: '',
+                    searchResults: [],
+                    selectedItems: [],
+                    searchTimeout: null,
+                    searchItems() {
+                        clearTimeout(this.searchTimeout);
+                        if (this.search.length < 2 && !this.selectedCategory) {
+                            this.searchResults = [];
+                            return;
+                        }
+                        this.searchTimeout = setTimeout(() => {
+                            let url = `/api/items/search?q=${encodeURIComponent(this.search)}`;
+                            if (this.selectedCategory) {
+                                url += `&category=${encodeURIComponent(this.selectedCategory)}`;
+                            }
+                            fetch(url)
+                                .then(res => res.json())
+                                .then(data => {
+                                    this.searchResults = data.filter(i => !this.selectedItems.some(s => s.id === i.id));
+                                });
+                        }, 300);
+                    },
+                    addItem(item) {
+                        this.selectedItems.push({...item, quantity: 1});
+                        this.search = '';
+                        this.searchResults = [];
+                    },
+                    removeItem(idx) {
+                        this.selectedItems.splice(idx, 1);
+                    },
+                    changeQuantity(idx, delta) {
+                        let qty = this.selectedItems[idx].quantity + delta;
+                        if (qty > 0 && qty <= this.selectedItems[idx].available_stock) {
+                            this.selectedItems[idx].quantity = qty;
+                        } else {
+                            alert('Insufficient stock. Only ' + this.selectedItems[idx].available_stock + ' available.');
+                        }
+                    },
+                    hasInsufficientStock() {
+                        return this.selectedItems.some(item => item.quantity > item.available_stock);
+                    }
+                }
+            }
+
+            // jQuery handler to trigger Alpine modal
+            $(document).on('click', '.open-create-modal', function () {
+                window.dispatchEvent(new CustomEvent('open-receipt-modal', {
+                    detail: {
+                        mode: 'create',
+                        data: null,
+                        action: '{{ route("receipt.store") }}'
+                    }
+                }));
+            });
+
+            // Example for edit (adjust based on your setup)
+            $(document).on('click', '#edit-selected-btn', function () {
+                let table = $('#receipts-table').DataTable();
+                let selectedData = table.rows({ selected: true }).data();
+
+                if (selectedData.length === 0) {
+                    alert('Please select a receipt first.');
+                    return;
+                }
+
+                let receipt = selectedData[0]; // Only handle the first selected row
+
+                $.get('/receipt/' + receipt.id, function(fullReceipt) {
+                    window.dispatchEvent(new CustomEvent('open-receipt-modal', {
+                        detail: {
+                            mode: 'edit',
+                            data: fullReceipt,
+                            action: '/receipt/' + receipt.id
+                        }
+                    }));
+                });
+            });
+
+            $(document).on('click', '#delete-selected-btn', function () {
+                let table = $('#receipts-table').DataTable();
+                let selectedData = table.rows({ selected: true}).data();
+
+                if (selectedData.length === 0) {
+                    alert('Please select a receipt to delete.');
+                    return;
+                }
+
+                if (!confirm('Are you sure you want to delete the selected receipt?')) {
+                    return;
+                }
+
+                // Multiple delete
+                let ids = [];
+                for (let i = 0; i < selectedData.length; i++) {
+                    ids.push(selectedData[i].id);
+                }
+
+                let deleteRequests = ids.map(id => {
+                    return axios.delete(`/receipt/${id}`);
+                });
+
+                Promise.all(deleteRequests)
+                    .then(() => {
+                        alert('Selected receipt(s) deleted.');
+                        table.ajax.reload(null, false);
+                    })
+                    .catch(error => {
+                        console.error('Delete failed:', error);
+                        alert('Failed to delete one or more receipts.');
+                    });
+
+                // 1 by 1 deletion
+                // let receipt = selectedData[0];
+                // console.log(selectedData[0]);
+                // let id = receipt.id;
+
+                // axios.delete(`/receipt/${id}`)
+                //     .then(response => {
+                //         alert('Deleted!');
+                //         table.ajax.reload();
+                //     })
+                //     .catch(error => {
+                //         console.error(error);
+                //         alert('Failed to delete');
+                // });
+
+            });
+
+            $(document).on('click', '.open-detail-modal', function () {
+                let id = $(this).data('id');
+                $.get('/receipt/' + id, function(fullReceipt) {
+                    window.dispatchEvent(new CustomEvent('open-detail-modal', {
+                        detail: {
+                            data: fullReceipt
+                        }
+                    }));
+                });
+            });
+
+        </script>
     @endpush
 </x-app-layout>
