@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 use App\DataTables\WarehousesDataTable;
 use App\Models\Warehouse;
 use Illuminate\Http\Request;
-
+use App\Http\Traits\LogsActivity;
+use Illuminate\Support\Facades\Auth;
 
 class WarehousesController extends Controller
 {
@@ -28,6 +29,8 @@ class WarehousesController extends Controller
 
         Warehouse::create($validatedData);
 
+        $this->logActivity('Warehouse', $warehouse->id, 'created', ['data' => $validatedData]);
+
         return redirect()->route('warehouse.index');
     }
 
@@ -43,6 +46,8 @@ class WarehousesController extends Controller
 
     public function update (Request $request, Warehouse $warehouse)
     {
+        $originalAttributes = $user->getOriginal();
+
         $validatedData = $request->validate([
             'name' => 'required|max:255',
             'address' => 'required|max:255',
@@ -50,12 +55,21 @@ class WarehousesController extends Controller
 
         $warehouse->update($validatedData);
 
+        $this->logActivity('Warehouse', $warehouse->id, 'updated', [
+            'old_attributes' => $originalAttributes,
+            'new_attributes' => $warehouse->getChanges() // This gives you only the attributes that changed, with their new values
+        ]);
+
         return redirect()->route('warehouse.index');
     }
 
     public function destroy (Warehouse $warehouse)
     {
+        $deletedWarehouseData = $warehouse->getOriginal();
+
         $warehouse->delete();
+
+        $this->logActivity('Warehouse', $warehouse->id, 'deleted', ['data' => $deletedWarehouseData]);
 
         // return redirect()->route('warehouse.index');
         return response()->json(['message' => 'Warehouse deleted successfully']); // Return a JSON response

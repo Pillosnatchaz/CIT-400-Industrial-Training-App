@@ -7,6 +7,7 @@ use App\Models\Item;
 use App\Models\ItemStock;
 use App\Models\Warehouse;
 use App\Models\ActivityLog;
+use App\Http\Traits\LogsActivity;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -74,12 +75,7 @@ class ItemsController extends Controller
             }
             ItemStock::insert($itemStocksData);
 
-            $this->activityLog(
-                'Item',
-                $item->id,
-                'created',
-                "Item '{$item->name}' (Category: {$item->category}) created with {$quantity} stock unit(s) in Warehouse ID {$validatedData['warehouse_id']}."
-            );
+            $this->logActivity('Project', $project->id, 'created', ['data' => $validatedData]);
 
         return redirect()->route('items.index')->with('success', 'Items created successfully!');
     }

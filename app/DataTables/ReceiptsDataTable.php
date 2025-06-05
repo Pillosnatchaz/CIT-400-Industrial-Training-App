@@ -61,7 +61,6 @@ class ReceiptsDataTable extends DataTable
             $color = $colors[$status] ?? 'bg-gray-100 text-gray-800';
             $displayText = ucwords(str_replace('_', ' ', $status));
 
-            // return '<span class="inline-block min-w-[6rem] text-center px-3 py-1 rounded-full text-xs font-semibold '.$color.'">'.ucwords($status).'</span>';
             return '<span class="inline-block min-w-[6rem] text-center px-3 py-1 rounded-full text-xs font-semibold ' . $color . '">' . $displayText . '</span>';
         })
         ->setRowId('id')

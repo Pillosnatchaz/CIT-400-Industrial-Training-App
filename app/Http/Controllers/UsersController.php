@@ -82,11 +82,11 @@ class UsersController extends Controller
 
     public function destroy (User $user)
     {
-        $deletedProjectData = $project->toArray();
+        $deletedUserData = $user->toArray();
 
         $user->delete();
 
-        $this->logActivity('Project', $project->id, 'deleted', ['data' => $deletedProjectData]);
+        $this->logActivity('User', $user->id, 'deleted', ['data' => $deletedUserData]);
 
         // return redirect()->route('users.index');
         return response()->json(['message' => 'User deleted successfully']); // Return a JSON response

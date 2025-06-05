@@ -9,6 +9,7 @@ use App\Models\Receipt;
 use App\Models\Project;
 use App\Models\User;
 use App\Models\Item;
+use App\Http\Traits\LogsActivity;
 use Carbon\carbon;
 
 class ReceiptsController extends Controller
@@ -130,11 +131,15 @@ class ReceiptsController extends Controller
 
         ]);
 
+        $this->logActivity('Receipt', $receipt->id, 'created', ['data' => $validatedData]);
+
         return redirect()->route('receipt.index')->with('success', 'Receipt created.');        
     }
 
     public function update(Request $request, Receipt $receipt)
     {
+        $originalAttributes = $receipt->getOriginal();
+
         $validated = $request->validate([
             'borrower_user_id' => 'required|string|max:255',
             'parent_checkout_receipt_id' => 'nullable|string|max:255',
@@ -159,14 +164,23 @@ class ReceiptsController extends Controller
 
         $receipt->update($validatedData);
 
+        $this->logActivity('Receipt', $receipt->id, 'updated', [
+            'old_attributes' => $originalAttributes,
+            'new_attributes' => $receipt->getChanges() 
+        ]);
+
         return redirect()->route('receipt.index');
     }
 
 
-    public function destroy($id)
+    public function destroy(Receipt $receipt)
     {
-        $receipt = Receipt::findOrFail($id);
+        $deletedReceiptData = $receipt->toArray();
+        
+        // $receipt = Receipt::findOrFail($id);
         $receipt->delete(); 
+
+        $this->logActivity('Receipt', $receipt->id, 'deleted', ['data' => $deletedReceiptData]);
 
         return response()->json(['message' => 'Receipt and items deleted.']);
     }
