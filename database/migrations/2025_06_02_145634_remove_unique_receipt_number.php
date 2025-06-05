@@ -11,8 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('item_stocks', function (Blueprint $table) {
-            $table->string('SKU')->unique()->after('id');
+        Schema::table('receipt', function (Blueprint $table) {
+            $table->dropUnique('receipt_receipt_number_unique');
         });
     }
 
@@ -21,9 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('item_stocks', function (Blueprint $table) {
-            $table->dropUnique(['SKU']);
-            $table->dropColumn('SKU');
+        Schema::table('receipt', function (Blueprint $table) {
+            $table->unique('receipt_number');
         });
     }
 };
