@@ -41,7 +41,7 @@ class ItemsDataTable extends DataTable
                 return $itemStock->status;
             })
             ->addColumn('notes', function ($row) {
-                return '<div class="whitespace-normal break-words max-w-md">' . e(Str::limit($row->notes, 500)) . '</div>';
+                return   e(Str::limit($row->notes, 500)) ;
             })
             ->editColumn('status', function (ItemStock $itemStock){
                 $status = $itemStock->status;

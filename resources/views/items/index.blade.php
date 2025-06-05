@@ -32,27 +32,6 @@
                     showQuantity: false,
                     formSubmitted: false,
 
-                    // categories: @json($categories->toArray()),
-
-                    // init() {
-                    //     this.$watch('showModal', (value) => {
-                    //         if (!value) {
-                    //             this.refreshCategories();
-                    //         }
-                    //     });
-                    // },
-
-                    // // Method to fetch categories from the backend and update the Alpine array
-                    // async refreshCategories() {
-                    //     try {
-                    //         const response = await axios.get('{{ route("items.get_categories") }}');
-                    //         // Ensure unique values and sort them for the datalist
-                    //         this.categories = [...new Set(response.data)].sort();
-                    //     } catch (error) {
-                    //         console.error('Error fetching categories:', error);
-                    //     }
-                    // },
-
                     openModal(event) {
                         const { mode, data, action } = event.detail;
                         this.showModal = true;

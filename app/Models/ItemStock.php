@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\belongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use App\Models\ActivityLog;
 use Illuminate\Support\Facades\Auth;
 
@@ -24,7 +24,7 @@ class ItemStock extends Model
 
     public function item(): BelongsTo
     {
-        return $this->belongsTo(Item::class, 'item_id');
+        return $this->belongsTo(\App\Models\Item::class, 'item_id');
     }
 
     public function warehouse(): BelongsTo

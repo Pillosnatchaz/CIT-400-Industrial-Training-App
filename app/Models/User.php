@@ -18,11 +18,10 @@ class User extends Authenticatable
     use Notifiable;
     use TwoFactorAuthenticatable;
 
-    // protected $appends = ['name'];
-    
+      
     public function getNameAttribute()
     {
-        return trim("{$this->first_name} {$this->last_name}");
+        return "{$this->first_name} {$this->last_name}";
     }
 
     protected $fillable = [
@@ -43,6 +42,7 @@ class User extends Authenticatable
 
     protected $appends = [
         'profile_photo_url',
+        'name',
     ];
 
     protected function casts(): array

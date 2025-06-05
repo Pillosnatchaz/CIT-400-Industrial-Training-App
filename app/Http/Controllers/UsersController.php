@@ -6,9 +6,13 @@ use App\DataTables\UsersDataTable;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Traits\LogsActivity;
 
 class UsersController extends Controller
 {
+    use LogsActivity;
+    
     public function index(UsersDataTable $dataTable)
     {
         if (auth()->user()->role !== 'admin') {
@@ -36,7 +40,9 @@ class UsersController extends Controller
 
         $validatedData['password'] = bcrypt($validatedData['password']);
 
-        User::create($validatedData);
+        $user = User::create($validatedData);
+
+        $this->logActivity('User', $user->id, 'created', ['data' => $validatedData]);
 
         return redirect()->route('users.index');
     }
@@ -53,6 +59,9 @@ class UsersController extends Controller
 
     public function update (Request $request, User $user)
     {
+
+        $originalAttributes = $user->getOriginal();
+
         $validatedData = $request->validate([
             'first_name' => 'required|max:255',
             'last_name' => 'required|max:255',
@@ -63,12 +72,21 @@ class UsersController extends Controller
 
         $user->update($validatedData);
 
+        $this->logActivity('User', $user->id, 'updated', [
+            'old_attributes' => $originalAttributes,
+            'new_attributes' => $user->getChanges() // This gives you only the attributes that changed, with their new values
+        ]);
+
         return redirect()->route('users.index');
     }
 
     public function destroy (User $user)
     {
+        $deletedProjectData = $project->toArray();
+
         $user->delete();
+
+        $this->logActivity('Project', $project->id, 'deleted', ['data' => $deletedProjectData]);
 
         // return redirect()->route('users.index');
         return response()->json(['message' => 'User deleted successfully']); // Return a JSON response
