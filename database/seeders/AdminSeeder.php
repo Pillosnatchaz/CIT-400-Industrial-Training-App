@@ -17,11 +17,11 @@ class adminSeeder extends Seeder
     
         public function run(): void
     {
-        if (DB::table('users')->where('email', 'test@gmail.com')->doesntExist()) {
+        if (DB::table('users')->where('email', 'iansopian@example.com')->doesntExist()) {
             DB::table('users')->insert([
                 'first_name' => 'Ian',
                 'last_name' => 'Sopian',
-                'email' => 'test@gmail.com',
+                'email' => 'iansopian@example.com',
                 'email_verified_at' => now(),
                 'password' => Hash::make('H2H@carmen'),
                 'phone' => '08123456789',
