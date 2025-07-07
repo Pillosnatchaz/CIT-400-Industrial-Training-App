@@ -15,5 +15,6 @@
     - Email: `text@gmail.com`
     - Password: `H2H@carmen`
 
+This version is only for reference for CIT400 dealine submission, the actual version (that are still WIP) is much more workable and functional than this version.
 
 
