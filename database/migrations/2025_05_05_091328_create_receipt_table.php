@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::create('receipt', function (Blueprint $table) {
             $table->id();
-            $table->string('SKU')->unique();
             $table->foreignId('user_id')->constrained('users');
             $table->foreignId('project_id')->constrained('project');
             $table->dateTime('expected_return_date');
